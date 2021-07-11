@@ -55,9 +55,11 @@ export class SohoLookupComponent extends BaseControlValueAccessor<any> implement
     }
 
     this._dataset = data;
-    if (data && this.jQueryElement && this.lookup?.settings) {
-      (this.lookup as any).settings.options.dataset = data;
-      this.markForUpdate();
+    if (data && this.jQueryElement) {
+      if (this.lookup?.settings?.options) {
+        this.lookup.settings.options.dataset = data;
+        this.markForUpdate();
+      }
     }
   }
   public get dataset(): Object[] | undefined {
@@ -363,7 +365,13 @@ export class SohoLookupComponent extends BaseControlValueAccessor<any> implement
     return true;
   }
 
+  /**
+   * Handle the disabled state of the control.
+   * @private
+   */
+  @HostBinding('disabled')
   private _isDisabled?: boolean = undefined;
+
   private _isReadOnly?: boolean = undefined;
 
   /**
@@ -456,16 +464,12 @@ export class SohoLookupComponent extends BaseControlValueAccessor<any> implement
 
   /** Enable the input. **/
   public enable(): void {
-    if (this.lookup) {
-      this.ngZone.runOutsideAngular(() => this.lookup?.enable());
-    }
+    this.disabled = false;
   }
 
   /** Disable the input. **/
   public disable(): void {
-    if (this.lookup) {
-      this.ngZone.runOutsideAngular(() => this.lookup?.disable());
-    }
+    this.disabled = true;
   }
 
   /**
@@ -484,26 +488,17 @@ export class SohoLookupComponent extends BaseControlValueAccessor<any> implement
     // Set the status locally (for refreshing)
     this._isDisabled = value;
 
-    if (value) {
-      this.ngZone.runOutsideAngular(() => {
-        (this.lookup as any).disable();
-      });
-    } else {
-      this.ngZone.runOutsideAngular(() => {
-        (this.lookup as any).enable();
-        this._isReadOnly = false;
-      });
-    }
+    this.markForUpdate();
   }
 
   get disabled(): boolean | undefined {
     return this._isDisabled;
   }
 
-  /** @deprecated use disabled attribute */
-  @Input() set isDisabled(value: boolean | undefined) {
-    this.disabled = value;
-  }
+  // /** @deprecated use disabled attribute */
+  // @Input() set isDisabled(value: boolean | undefined) {
+  //   this.disabled = value;
+  // }
 
   /**
    * Sets the control to readonly
@@ -522,10 +517,10 @@ export class SohoLookupComponent extends BaseControlValueAccessor<any> implement
     this._isReadOnly = value;
 
     if (value) {
-      this.ngZone.runOutsideAngular(() => (this.lookup as any).readonly());
+      this.ngZone.runOutsideAngular(() => this.lookup?.readonly());
     } else {
       this.ngZone.runOutsideAngular(() => {
-        (this.lookup as any).enable();
+        this.lookup?.enable();
         this._isDisabled = false;
       });
     }
@@ -667,7 +662,7 @@ export class SohoLookupComponent extends BaseControlValueAccessor<any> implement
 
       if (typeof toProcess[i] === 'object') {
         if (typeof this.settings.field === 'function') {
-          current = (this.settings.field as SohoLookupFieldFunction)(toProcess[i], (this.lookup as any).element, (this.lookup as any).grid);
+          current = (this.settings.field as SohoLookupFieldFunction)(toProcess[i], this.lookup!.element, this.lookup!.grid);
         } else {
           current = (toProcess[i] as any)[this.settings.field as string];
         }
@@ -720,13 +715,7 @@ export class SohoLookupComponent extends BaseControlValueAccessor<any> implement
    * Depending on the value, it will enable or disable the appropriate DOM element.
    */
   setDisabledState(isDisabled: boolean | undefined): void {
-    // Update the jQuery widget with the requested disabled state.
     this.disabled = isDisabled ? true : undefined;
-    if (isDisabled) {
-      this.lookup?.element.attr('disabled', 'true');
-    } else {
-      this.lookup?.element.removeAttr('disabled');
-    }
   }
 
   /**
@@ -740,9 +729,9 @@ export class SohoLookupComponent extends BaseControlValueAccessor<any> implement
     }
 
     if (event.length && event.length === 1 && !this.isMultiselect()) {
-      this.internalValue = this.asobject !== false ? event[0].data : this.processValue(event[0].data);
+      this.internalValue = this.asobject ? event[0].data : this.processValue(event[0].data);
     } else {
-      this.internalValue = event.map(val => this.asobject !== false ? val.data : this.processValue(val.data));
+      this.internalValue = event.map(val => this.asobject ? val.data : this.processValue(val.data));
     }
   }
 

@@ -290,13 +290,13 @@ export class LookupDemoComponent implements OnInit {
     console.log('lookup.onbeforeopen', event);
   }
 
-  toggleDisabled() {
+  toggleDisabled(event: any) {
     console.log('lookup.toggleDisabled', event);
-    const exampleComp = (this.sohoLookupComponent as any);
-    if (exampleComp.disabled) {
-      (this.sohoLookupComponent as any).enable();
+    const exampleComp = this.sohoLookupComponent;
+    if (exampleComp?.disabled) {
+      this.sohoLookupComponent?.enable();
     } else {
-      (this.sohoLookupComponent as any).disable();
+      this.sohoLookupComponent?.disable();
     }
   }
 }

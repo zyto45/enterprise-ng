@@ -351,7 +351,7 @@
         <div class="field">
           <label soho-label for="toggle-isdisabled">Toggle isDisabled</label>
           <input soho-lookup
-            [isDisabled]="isDisabled"
+            [disabled]="isDisabled"
             [(ngModel)]="model.single"
             [columns]="columns_product"
             [dataset]="data_product"
@@ -364,7 +364,7 @@
         {{ isDisabled ? 'Enable' : 'Disable'}}
         </button>
         <button soho-button
-        (click)="toggleDisabled()">Toggle Disabled (Method)
+        (click)="toggleDisabled($event)">Toggle Disabled (Method)
         </button>
       </div>
     </div>

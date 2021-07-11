@@ -243,9 +243,15 @@ describe('SohoLookupComponent on ReactiveForm', () => {
     expect(el.hasAttribute('disabled')).toBeTruthy('disabled');
   });
 
-  it('is enabled after call to enable().', () => {
+  it('is enabled after call to enable().', (done) => {
+    fixture.detectChanges();
     component.lookup?.enable();
-    expect(el.hasAttribute('disabled')).toBeFalsy('disabled');
+    fixture.detectChanges();
+
+    setTimeout(() => {
+      expect(el.hasAttribute('disabled')).toBeFalsy('disabled');
+      done();
+    });
   });
 
   it('is readonly after call to readonly().', () => {
@@ -255,13 +261,17 @@ describe('SohoLookupComponent on ReactiveForm', () => {
     expect(el.hasAttribute('readonly')).toBeTruthy('readonly');
   });
 
-  it('is disabled after call to disable().', () => {
+  it('is disabled after call to disable().', (done) => {
     component.formGroup.enable();
     fixture.detectChanges();
     component.formGroup.disable();
     fixture.detectChanges();
 
-    expect(el.hasAttribute('disabled')).toBeTruthy('disabled');
+    setTimeout(() => {
+      expect(el.hasAttribute('disabled')).toBeTruthy('disabled');
+      done();
+    });
+
   });
 
   it('initial value is set.', () => {
