@@ -298,5 +298,7 @@ export class LookupDemoComponent implements OnInit {
     } else {
       this.sohoLookupComponent?.disable();
     }
+
+    this.isDisabled = !this.isDisabled;
   }
 }

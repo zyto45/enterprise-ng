@@ -16,7 +16,7 @@ import {
 import {
   BaseControlValueAccessor,
   provideControlValueAccessor
-} from '../utils/base-control-value-accessor';
+} from '../utils';
 
 @Component({
   selector: 'input[soho-lookup]', // eslint-disable-line
@@ -476,29 +476,12 @@ export class SohoLookupComponent extends BaseControlValueAccessor<any> implement
    * Sets the control to be disabled or not.
    */
   @Input() set disabled(value: boolean | undefined) {
-    // Avoid setting the value if not required,
-    // this causes issue on component initialisation
-    // as enable() is called by both disabled()
-    // and readonly().
-    if (this.lookup == null) {
-      this._isDisabled = value;
-      return;
-    }
-
-    // Set the status locally (for refreshing)
     this._isDisabled = value;
-
-    this.markForUpdate();
   }
 
   get disabled(): boolean | undefined {
     return this._isDisabled;
   }
-
-  // /** @deprecated use disabled attribute */
-  // @Input() set isDisabled(value: boolean | undefined) {
-  //   this.disabled = value;
-  // }
 
   /**
    * Sets the control to readonly
