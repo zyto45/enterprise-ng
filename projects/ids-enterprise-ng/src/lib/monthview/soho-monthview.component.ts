@@ -544,8 +544,10 @@ export class SohoMonthViewComponent implements AfterViewChecked, AfterViewInit, 
   // -------------------------------------
   // Component Output
   // -------------------------------------
+  @Output() beforeMonthRendered = new EventEmitter<SohoMonthViewRenderEvent>();
   @Output() monthRendered = new EventEmitter<SohoMonthViewRenderEvent>();
   @Output() selected = new EventEmitter<SohoMonthViewSelectedEvent>();
+  @Output() afterMonthRendered = new EventEmitter<SohoMonthViewRenderEvent>();
 
   /**
    * Local variables
@@ -568,7 +570,9 @@ export class SohoMonthViewComponent implements AfterViewChecked, AfterViewInit, 
 
       // Add listeners to emit events
       this.jQueryElement
+        .on('beforemonthrendered', (_e: any, args: SohoMonthViewRenderEvent) => this.onMonthViewBeforeRenderedEvent(args))
         .on('monthrendered', (_e: any, args: SohoMonthViewRenderEvent) => this.onMonthViewRenderedEvent(args))
+        .on('aftermonthrendered', (_e: any, args: SohoMonthViewRenderEvent) => this.onMonthViewAfterRenderedEvent(args))
         .on('selected', (_e: any, event: SohoMonthViewSelectedEvent) => this.onMonthViewSelectedEvent(event));
 
       // Initialize the Soho control.
@@ -589,8 +593,16 @@ export class SohoMonthViewComponent implements AfterViewChecked, AfterViewInit, 
     }
   }
 
+  onMonthViewBeforeRenderedEvent(event: SohoMonthViewRenderEvent) {
+    this.ngZone.runOutsideAngular(() => this.beforeMonthRendered.emit(event));
+  }
+
   onMonthViewRenderedEvent(event: SohoMonthViewRenderEvent) {
     this.ngZone.runOutsideAngular(() => this.monthRendered.emit(event));
+  }
+
+  onMonthViewAfterRenderedEvent(event: SohoMonthViewRenderEvent) {
+    this.ngZone.runOutsideAngular(() => this.afterMonthRendered.emit(event));
   }
 
   onMonthViewSelectedEvent(event: SohoMonthViewSelectedEvent) {

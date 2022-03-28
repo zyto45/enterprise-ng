@@ -139,6 +139,7 @@ import { MessageDemoComponent } from './message/message.demo';
 import { ModalDialogDemoComponent } from './modal-dialog/modal-dialog.demo';
 import { MonthViewDemoComponent } from './monthview/monthview.demo';
 import { MonthViewDemoInPageComponent } from './monthview/monthview-inpage.demo';
+import { MonthViewLegendDemoComponent } from './monthview/monthview-legend.demo';
 import { NotificationDemoComponent } from './notification/notification.demo';
 import { NotificationBadgePlacementDemoComponent } from './notification-badge/notification-badge-placement.demo';
 import { NotificationBadgeShowHideDemoComponent } from './notification-badge/notification-badge-show-hide.demo';
@@ -384,6 +385,7 @@ export const routes: Routes = [
   { path: 'modal-dialog', component: ModalDialogDemoComponent },
   { path: 'monthview', component: MonthViewDemoComponent },
   { path: 'monthview-inpage', component: MonthViewDemoInPageComponent },
+  { path: 'monthview-legend', component: MonthViewLegendDemoComponent },
   { path: 'notification', component: NotificationDemoComponent },
   { path: 'notification-badge-placement', component: NotificationBadgePlacementDemoComponent },
   { path: 'notification-badge-show-hide', component: NotificationBadgeShowHideDemoComponent },

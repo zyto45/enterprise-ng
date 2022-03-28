@@ -1,0 +1,11 @@
+<div soho-monthview
+  [month]="initialMonth"
+  [day]="initialDay"
+  [year]="initialYear"
+  [inPage]=true
+  [showLegend]=true
+  [legend]="legends"
+  (beforeMonthRendered)="onBeforeRenderMonth($event)"
+  (monthRendered)="onRenderMonth($event)"
+>
+</div>
