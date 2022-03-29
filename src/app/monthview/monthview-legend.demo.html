@@ -5,7 +5,8 @@
   [inPage]=true
   [showLegend]=true
   [legend]="legends"
-  (beforeMonthRendered)="onBeforeRenderMonth($event)"
+  (beforeMonthRendered)="onBeforeRenderMonth()"
   (monthRendered)="onRenderMonth($event)"
+  (afterMonthRendered)="onAfterRenderMonth()"
 >
 </div>
