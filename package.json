@@ -3,7 +3,7 @@
   "scripts": {
     "ng-high-memory": "node --max_old_space_size=10000 ./node_modules/@angular/cli/bin/ng",
     "ng": "npx ng",
-    "start": "npm run ng-high-memory -- serve",
+    "start": "node server.js",
     "build": "npm run build:lib && npm run build:app",
     "build:lib": "npm run build:typings && npm run build:library",
     "build:library": "node --max_old_space_size=10000 ./node_modules/@angular/cli/bin/ng build ids-enterprise-ng --configuration production",
