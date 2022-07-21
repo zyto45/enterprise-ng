@@ -33,7 +33,7 @@
     "release:final": "cd projects/ids-enterprise-ng && release-it && cd ../../ && npm run release:typings",
     "release:typings": "npm run sync:lib && npm run build:typings && cd projects/ids-enterprise-typings && npm publish",
     "sync:lib": "node ./scripts/version-sync.js",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install && npm run build"
   },
   "private": true,
   "type": "module",
